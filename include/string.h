@@ -1,0 +1,36 @@
+/**
+ * Universidad de La Laguna ULL
+ * Degree: Computer Engineering
+ * Signature: Computational Complexity
+ * Practice 02: Turing Machine
+ * Author: Cristhian Adoney Cruz Delgado
+ * Email: alu0101648293@ull.edu.es
+ */
+
+#ifndef STRING_H_
+#define STRING_H_
+
+#include "symbol.h"
+
+#include <iostream>
+#include <stdexcept>
+#include <string>
+#include <vector>
+
+class String {
+ public:
+  String() = default;
+  explicit String(const std::string&);
+  const Symbol& operator[](std::size_t) const;
+  const std::vector<Symbol>& getString() const;
+  std::size_t size() const;
+  bool empty() const;
+  friend bool operator==(const String&, const String&);
+  friend bool operator<(const String&, const String&);
+  friend std::istream& operator>>(std::istream&, String&);
+  friend std::ostream& operator<<(std::ostream&, const String&);
+ private:
+  std::vector<Symbol> symbols_;
+};
+
+#endif
