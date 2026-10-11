@@ -10,6 +10,10 @@
 #ifndef TURING_MACHINE_APP_H_
 #define TURING_MACHINE_APP_H_
 
+#include <iostream>
+#include <stdexcept>
+#include <string_view>
+
 #include "turing-machine.h"
 #include "turing-machine-simulator.h"
 #include "turing-machine-reader.h"
@@ -22,10 +26,9 @@ class TuringMachineApp {
   void runApp();
  private:
   void readInputString(std::string&);
+  void printInstructions();
   TuringMachine turing_machine_;
   TuringMachineSimulator turing_machine_simulator_;
-  TuringMachineReader turing_machine_reader_;
-  TuringMachineWriter turing_machine_writer_;
 };
 
 #endif

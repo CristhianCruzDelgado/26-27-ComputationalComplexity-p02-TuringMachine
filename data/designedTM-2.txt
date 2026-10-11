@@ -1,0 +1,19 @@
+q0 q1 q2 q3 q4 q5 q6
+a b
+a b 0 1 _
+q0
+_
+q6
+3
+q0 a _ _ q0 _ a _ R R S
+q0 b _ _ q0 _ _ b R S R
+q0 _ _ _ q1 _ _ _ S L S
+q1 _ a _ q2 1 _ _ L L S
+q1 _ _ _ q3 0 _ _ L R S
+q2 _ a _ q2 1 _ _ L L S
+q2 _ _ _ q3 _ _ _ S R S
+q3 _ _ _ q4 _ _ _ L S L
+q4 _ _ b q5 1 _ _ L S L
+q4 _ _ _ q6 0 _ _ S S R
+q5 _ _ b q5 1 _ _ L S L
+q5 _ _ _ q6 _ _ _ R S R

@@ -44,11 +44,12 @@ void TuringMachineReader::readLineComments(std::ifstream& is) const {
   }
 }
 
-void TuringMachineReader::readStates(std::vector<std::string>& states, 
+void TuringMachineReader::readStates(
+    std::vector<std::string>& states, 
     std::ifstream& file) const {
   std::string line;
   if (!std::getline(file, line)) {
-    throw std::invalid_argument("Invalid input: no states defined");
+    throw std::invalid_argument("Invalid input: stream read failure");
   }
   std::istringstream line_stream(line);
   std::string state;
@@ -56,81 +57,88 @@ void TuringMachineReader::readStates(std::vector<std::string>& states,
     states.push_back(state);
   }
   if (states.empty()) {
-    throw std::invalid_argument("Invalid input: no states defined");
+    throw std::runtime_error("Q = ∅");
   }
 }
 
-void TuringMachineReader::readInputAlphabet(Alphabet& input_alphabet,
+void TuringMachineReader::readInputAlphabet(
+    Alphabet& input_alphabet,
     std::ifstream& file) const {
   file >> input_alphabet;
 }
 
-void TuringMachineReader::readTapeAlphabet(Alphabet& tape_alphabet,
+void TuringMachineReader::readTapeAlphabet(
+    Alphabet& tape_alphabet,
     std::ifstream& file) const {
   file >> tape_alphabet;
 }
 
-void TuringMachineReader::readInitialState(const std::vector<std::string>& states,
-    std::string& initial_state, std::ifstream& file) const {
+void TuringMachineReader::readInitialState(
+    const std::vector<std::string>& states, 
+    std::string& initial_state, 
+    std::ifstream& file) const {
   if (!std::getline(file, initial_state)) {
-    throw std::invalid_argument("Invalid input: no initial state defined");
+    throw std::invalid_argument("Invalid input: stream read failure");
   }
   if (std::find(states.begin(), states.end(), initial_state) == states.end()) {
-    throw std::invalid_argument(
-      "Invalid input: the initial state is not contained in the set of states");
+    throw std::runtime_error("q0 ∉ Q");
   }
 }
 
-void TuringMachineReader::readBlankSymbol(const Alphabet& input_alphabet,
-    const Alphabet& tape_alphabet, Symbol& blank_symbol, 
+void TuringMachineReader::readBlankSymbol(
+    const Alphabet& input_alphabet,
+    const Alphabet& tape_alphabet, 
+    Symbol& blank_symbol, 
     std::ifstream& file) const {
   std::string line;
   if (!std::getline(file, line)) {
-    throw std::invalid_argument("Invalid input: no blank symbol defined");
+    throw std::invalid_argument("Invalid input: stream read failure");
   }
   std::istringstream line_stream(line);
   if (!(line_stream >> blank_symbol)) {
-    throw std::invalid_argument("Invalid input: no blank symbol defined");
+    throw std::invalid_argument("Invalid input: stream read failure");
   }
   if (input_alphabet.includes(blank_symbol)) {
-    throw std::invalid_argument(
-      "Invalid input: blank symbol is contained in the input alphabet");
+    throw std::runtime_error("□ ∈ Σ");
   }
   if (!tape_alphabet.includes(blank_symbol)) {
-    throw std::invalid_argument(
-      "Invalid input: blank symbol is not contained in the tape alphabet");
+    throw std::runtime_error("□ ∉ Γ");
   }
 }
 
-void TuringMachineReader::readFinalStates(const std::vector<std::string>& states,
-    std::vector<std::string>& final_states, std::ifstream& file) const {
+void TuringMachineReader::readFinalStates(
+    const std::vector<std::string>& states,
+    std::vector<std::string>& final_states, 
+    std::ifstream& file) const {
   std::string line;
   if (!std::getline(file, line)) {
-    throw std::invalid_argument("Invalid input: no final states defined");
+    throw std::invalid_argument("Invalid input: stream read failure");
   }
   std::istringstream line_stream(line);
   std::string final_state;
   while (line_stream >> final_state) {
     if (std::find(states.begin(), states.end(), final_state) == states.end()) {
-      throw std::invalid_argument(
-        "Invalid input: the final state is not contained in the set of states");
+      throw std::runtime_error("F ⊈ Q");
     }
     final_states.push_back(final_state);
   }
 }
 
-void TuringMachineReader::readNumberOfTapes(std::size_t& number_of_tapes, 
+void TuringMachineReader::readNumberOfTapes(
+    std::size_t& number_of_tapes, 
     std::ifstream& file) const {
   std::string line;
   if (!std::getline(file, line)) {
-    throw std::invalid_argument("Invalid input: no number of tapes defined");
+    throw std::invalid_argument("Invalid input: stream read failure");
   }
   number_of_tapes = std::stoull(line);
 }
 
 void TuringMachineReader::readTransitionFunction(
-    const std::vector<std::string>& states, const Alphabet& tape_alphabet, 
-    std::size_t number_of_tapes, Transitions& transition_function, 
+    const std::vector<std::string>& states, 
+    const Alphabet& tape_alphabet, 
+    std::size_t number_of_tapes, 
+    Transitions& transition_function, 
     std::ifstream& file) const {
   std::string line;
   while (std::getline(file, line)) {
@@ -140,53 +148,55 @@ void TuringMachineReader::readTransitionFunction(
     std::string next_state;
     std::vector<Symbol> next_tapes_symbol;
     std::vector<Movement> movements;
+
     if (!(line_stream >> state)) {
-      throw std::invalid_argument("Invalid input: malformed transition");
+      throw std::invalid_argument("Invalid input: stream read failure");
     }
     if (std::find(states.begin(), states.end(), state) == states.end()) {
-      throw std::invalid_argument(
-        "Invalid input: state is not contained in the set of states");
+      throw std::runtime_error(state + " ∉ Q");
     }
+
     tapes_symbol.reserve(number_of_tapes);
     for (std::size_t i = 0; i < number_of_tapes; ++i) {
       Symbol tape_symbol;
       if (!(line_stream >> tape_symbol)) {
-        throw std::invalid_argument("Invalid input: malformed transition");
+        throw std::invalid_argument("Invalid input: stream read failure");
       }
       if (!tape_alphabet.includes(tape_symbol)) {
-        throw std::invalid_argument(
-          "Invalid input: tape symbol is not contained in the tape alphabet");
+        throw std::runtime_error(tape_symbol.getSymbol() + " ∉ Γ");
       }
       tapes_symbol.push_back(tape_symbol);
     }
+
     if (!(line_stream >> next_state)) {
-      throw std::invalid_argument("Invalid input: malformed transition");
+      throw std::invalid_argument("Invalid input: stream read failure");
     }
     if (std::find(states.begin(), states.end(), next_state) == states.end()) {
-      throw std::invalid_argument(
-        "Invalid input: next state is not contained in the set of states");
+      throw std::runtime_error(next_state + " ∉ Q");
     }
+
     next_tapes_symbol.reserve(number_of_tapes);
     for (std::size_t i = 0; i < number_of_tapes; ++i) {
       Symbol next_tape_symbol;
       if (!(line_stream >> next_tape_symbol)) {
-        throw std::invalid_argument("Invalid input: malformed transition");
+        throw std::invalid_argument("Invalid input: stream read failure");
       }
       if (!tape_alphabet.includes(next_tape_symbol)) {
-        throw std::invalid_argument(
-          "Invalid input: tape symbol is not contained in the tape alphabet");
+        throw std::runtime_error(next_tape_symbol.getSymbol() + " ∉ Γ");
       }
       next_tapes_symbol.push_back(next_tape_symbol);
     }
+
     movements.reserve(number_of_tapes);
     for (std::size_t i = 0; i < number_of_tapes; ++i) {
       char character;
       if (!(line_stream >> character)) {
-        throw std::invalid_argument("Invalid input: malformed transition");
+        throw std::invalid_argument("Invalid input: stream read failure");
       }
       Movement move = MovementParser::MovementFromChar(character);
       movements.push_back(move);
     }
+
     transition_function.insert({{state, tapes_symbol}, 
       {next_state, next_tapes_symbol, movements}});
   }

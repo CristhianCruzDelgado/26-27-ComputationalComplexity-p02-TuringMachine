@@ -9,6 +9,9 @@
 
 #include "args-parser.h"
 
+constexpr std::string_view kHelpCommand = "-help";
+constexpr std::string_view kConfigCommand = "-config";
+
 ArgsParser::ArgsParser(int argc, char* argv[]) {
   if (argc < 2) {
     throw ParserError();
@@ -17,10 +20,10 @@ ArgsParser::ArgsParser(int argc, char* argv[]) {
   for (int i = 0; i < argc; ++i) {
     arguments_.emplace_back(argv[i]);
   }
-  if (argc == 2 && std::string_view(arguments_[1]) == "-help") {
+  if (argc == 2 && std::string_view(arguments_[1]) == kHelpCommand) {
     throw HelpError();
   } 
-  if (argc == 3 && std::string_view(arguments_[1]) == "-config") {
+  if (argc == 3 && std::string_view(arguments_[1]) == kConfigCommand) {
     return;
   }
   throw ParserError();

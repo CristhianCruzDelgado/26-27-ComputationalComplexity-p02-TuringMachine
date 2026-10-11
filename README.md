@@ -1,8 +1,12 @@
 # 26-27-ComputationalComplexity-p02-TuringMachine
 
-The Turing machine processes an input string by reading symbols from the tape and manipulating the tape head according to its transition function. A string is accepted if the automaton halts in an accepting state.
+The Turing machine processes an input string by reading symbols from the tape 
+and manipulating the tape head according to its transition function. A string 
+is accepted if the automaton halts in an accepting state.
 
-The program prompts the user to enter input strings one at a time via the keyboard. For each string, the automaton processes the input and displays the tapes on the screen at each step of the computation.
+The program prompts the user to enter input strings one at a time via the 
+keyboard. For each string, the automaton processes the input and displays the 
+tapes on the screen at each step of the computation.
 
 ## Problem description
 
@@ -40,11 +44,14 @@ $$\delta: Q \times \Gamma^k \rightarrow Q \times (\Gamma \times \{L, R\})^k$$
 
 ## Designed Turing Machines paths
 
-As configuration files [designed Turing Machine 1](./data/designedTM-1.txt), [designed Turing Machine 2](./data/designedTM-2.txt)
+As configuration files [designed Turing Machine 1](./data/designedTM-1.txt), 
+[designed Turing Machine 2](./data/designedTM-2.txt)
 
-As images [designed Turing Machine 1](./img/designedTM-1.png), [designed Turing Machine 2](./img/designedTM-2.png)
+As images [designed Turing Machine 1](./img/designedTM-1.png), 
+[designed Turing Machine 2](./img/designedTM-2.png) ...
 
-![designed Turing Machine 1](./img/designedTM-1.png) ![designed Turing Machine 2](./img/designedTM-2.png)
+![designed Turing Machine 1](./img/designedTM-1.png) 
+![designed Turing Machine 2](./img/designedTM-2.png)
 
 ## Run code
 
@@ -53,7 +60,7 @@ mkdir build
 cd build
 cmake ..
 make
-/turing-machine -h|--help
+/turing-machine -help
 ```
 
 ## Other information

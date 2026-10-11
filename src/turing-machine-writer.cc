@@ -9,14 +9,16 @@
 
 #include "turing-machine-writer.h"
 
+constexpr std::string_view kHorizontalLine = "------------------"
+  "--------------------------------------------------------------\n";
+
 void TuringMachineWriter::writeTuringMachine( 
     const TuringMachine& turing_machine) const {
   std::cout << "Turing Machine (TM)\n" 
-            << "--------------------------------------------------------------"
-               "------------------\n"
+            << kHorizontalLine
             << "Q:  ";
   writeStates(turing_machine.getStates());
-  std::cout << "\nΣ:  "   << turing_machine.getInputAlphabet()
+  std::cout << "\nΣ:  " << turing_machine.getInputAlphabet()
             << "\nΓ:  " << turing_machine.getTapeAlphabet()
             << "\nq0: " << turing_machine.getInitialState()
             << "\nb:  " << turing_machine.getBlankSymbol()
@@ -24,8 +26,7 @@ void TuringMachineWriter::writeTuringMachine(
   writeStates(turing_machine.getFinalStates());
   std::cout << "\nδ:\n";
   writeTransitions(turing_machine.getTransitions());
-  std::cout << "--------------------------------------------------------------"
-               "------------------\n";
+  std::cout << kHorizontalLine;
 }
 
 void TuringMachineWriter::writeStates(

@@ -9,12 +9,12 @@
 
 #include "movement-parser.h"
 
-Movement MovementParser::MovementFromChar(char c) {
-  switch (c) {
+Movement MovementParser::MovementFromChar(char character) {
+  switch (character) {
     case 'L': return Movement::LEFT;
     case 'R': return Movement::RIGHT;
     case 'S': return Movement::STAY;
-    default: throw std::invalid_argument("Invalid movement");
+    default: throw std::runtime_error("Invalid movement");
   }
 }
 
@@ -23,6 +23,6 @@ char MovementParser::MovementToChar(const Movement& move) {
     case Movement::LEFT: return 'L';
     case Movement::RIGHT: return 'R';
     case Movement::STAY: return 'S';
-    default: throw std::invalid_argument("Invalid movement");
+    default: throw std::runtime_error("Invalid movement");
   }
 }

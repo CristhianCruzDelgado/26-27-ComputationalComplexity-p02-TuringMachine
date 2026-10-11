@@ -10,35 +10,23 @@
 #ifndef TURING_MACHINE_EXCEPTION_H_
 #define TURING_MACHINE_EXCEPTION_H_
 
-#include <exception>
+#include <stdexcept>
 #include <string>
 #include <string_view>
 
-class TuringMachineException : public std::exception {
+class TuringMachineException : public std::runtime_error {
  public:
-  explicit TuringMachineException(std::string_view message)
-      : message_(message) {}
-  const char* what() const noexcept override { 
-    return message_.c_str(); 
-  }
- protected:
-  std::string message_;
+  explicit TuringMachineException(std::string_view message);
 };
 
 class HelpError : public TuringMachineException {
  public:
-  HelpError() 
-      : TuringMachineException(
-          "Help: This program simulates a Turing Machine (TM)\n"
-          "Try: ./turing-machine "
-          "-config <../data/[designed|example]TM-[1|2].txt>\n") {}
+  HelpError();
 };
 
 class ParserError : public TuringMachineException {
  public:
-  ParserError() 
-      : TuringMachineException(
-            "Use -help for help\n") {}
+  ParserError();
 };
 
 #endif

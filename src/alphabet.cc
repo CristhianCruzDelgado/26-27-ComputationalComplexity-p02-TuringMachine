@@ -11,17 +11,17 @@
 
 Alphabet::Alphabet(const std::string& symbols) {
   for (char character : symbols) {
-    if (character == Symbol::kEmptySymbol) {
-      throw std::invalid_argument("Alphabet cannot include the empty symbol");
-    }
-    if (character == ' ') {
+    if (std::isspace(character)) {
       continue;
     }
     Symbol symbol(character);
+    if (symbol.isEmptySymbol()) {
+      throw std::runtime_error("Alphabet cannot include the empty symbol");
+    }
     symbols_.insert(symbol);
   }
   if (symbols_.empty()) {
-    throw std::invalid_argument("Alphabet cannot be empty");
+    throw std::runtime_error("Alphabet cannot be empty");
   } 
 }
 
@@ -43,11 +43,10 @@ bool Alphabet::includes(const Symbol& symbol) const {
 
 std::istream& operator>>(std::istream& is, Alphabet& alphabet) {
   std::string line;
-  if (std::getline(is, line)) {
-    alphabet = Alphabet(line);
-  } else {
+  if (!std::getline(is, line)) {
     throw std::invalid_argument("Invalid input: alphabet undefined");
   }
+  alphabet = Alphabet(line);
   return is;
 }
 

@@ -12,6 +12,7 @@
 
 #include "symbol.h"
 
+#include <cctype>
 #include <iostream>
 #include <stdexcept>
 #include <string>

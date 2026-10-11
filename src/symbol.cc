@@ -13,6 +13,10 @@ char Symbol::getSymbol() const {
   return symbol_; 
 }
 
+bool Symbol::isEmptySymbol() const {
+  return symbol_ == kEmptySymbol;
+}
+
 bool operator==(const Symbol& lhs, const Symbol& rhs) {
   return lhs.symbol_ == rhs.symbol_;
 }
@@ -23,11 +27,10 @@ bool operator<(const Symbol& lhs, const Symbol& rhs) {
 
 std::istream& operator>>(std::istream& is, Symbol& symbol) {
   char character;
-  if (is >> character) {
-    symbol.symbol_ = character;
-  } else {
+  if (!(is >> character)) {
     throw std::invalid_argument("Invalid input: symbol undefined");
   }
+  symbol.symbol_ = character;
   return is;
 }
 

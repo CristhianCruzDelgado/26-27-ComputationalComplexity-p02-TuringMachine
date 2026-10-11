@@ -9,26 +9,31 @@
 
 #include "turing-machine-app.h"
 
-TuringMachineApp::TuringMachineApp(const char* config_path) {
-  turing_machine_ = turing_machine_reader_.readTuringMachine(config_path);
-  turing_machine_writer_.writeTuringMachine(turing_machine_);
-}
+constexpr std::string_view kExitCommand = "exit";
+
+TuringMachineApp::TuringMachineApp(const char* config_path) :
+    turing_machine_(TuringMachineReader().readTuringMachine(config_path)) {}
 
 void TuringMachineApp::runApp() {
+  TuringMachineWriter().writeTuringMachine(turing_machine_);
   std::string input_string;
-  const std::string exit_string("exit");
   readInputString(input_string);
-  while (!(input_string == exit_string)) {
+  while (!(input_string == kExitCommand)) {
     turing_machine_simulator_.test(turing_machine_, input_string);
     readInputString(input_string);
   }
 }
 
 void TuringMachineApp::readInputString(std::string& input_string) {
-  std::cout << "Enter the input string to see if it is accepted or rejected by "
-    "the automaton\n(press enter for empty string, write 'exit' to quit)\n> ";
+  printInstructions();
   if (!(std::cin >> input_string)) {
     throw std::invalid_argument("Invalid input: stream read failure");
   }
   std::cout << "\n";
+}
+
+void TuringMachineApp::printInstructions() {
+  std::cout << "Enter the input string to see if it is accepted or rejected "
+               "by the machine\n(press enter for the empty string, write '"
+            << kExitCommand << "' to quit)\n> ";
 }

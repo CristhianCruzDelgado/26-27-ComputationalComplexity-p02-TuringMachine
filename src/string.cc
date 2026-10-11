@@ -10,18 +10,18 @@
 #include "../include/string.h"
 
 String::String(const std::string& symbols) {
-  if (symbols.size() == 1 && symbols[0] == Symbol::kEmptySymbol) {
+  if (symbols.size() == 1 && Symbol(symbols[0]).isEmptySymbol()) {
     return;
   }
   symbols_.reserve(symbols.size());
   for (char character : symbols) {
-    if (character == Symbol::kEmptySymbol) {
-      throw std::invalid_argument("String cannot contain the empty symbol");
-    }
-    if (character == ' ') {
+    if (std::isspace(character)) {
       continue;
     }
     Symbol symbol(character);
+    if (symbol.isEmptySymbol()) {
+      throw std::runtime_error("String cannot contain the empty symbol");
+    }
     symbols_.emplace_back(symbol);
   }
 }
@@ -55,17 +55,16 @@ bool operator<(const String& lhs, const String& rhs) {
 
 std::istream& operator>>(std::istream& is, String& string) {
   std::string line;
-  if (std::getline(is, line)) {
-    string = String(line);
-  } else {
+  if (!std::getline(is, line)) {
     throw std::invalid_argument("Invalid input: string undefined");
   }
+  string = String(line);
   return is;
 }
 
 std::ostream& operator<<(std::ostream& os, const String& string) {
   if (string.empty()) {
-    return os << Symbol::kEmptySymbol;
+    return os << Symbol::getEmptySymbol();
   } 
   for (const Symbol& symbol : string.symbols_) {
     os << symbol;
