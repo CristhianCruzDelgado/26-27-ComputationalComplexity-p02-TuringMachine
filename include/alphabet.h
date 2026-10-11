@@ -28,6 +28,7 @@ class Alphabet {
   bool includes(const Symbol&) const;
   friend std::istream& operator>>(std::istream&, Alphabet&);
   friend std::ostream& operator<<(std::ostream&, const Alphabet&);
+  
  private:
   std::set<Symbol> symbols_;
 };

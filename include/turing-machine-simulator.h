@@ -10,14 +10,23 @@
 #ifndef TURING_MACHINE_SIMULATOR_H_
 #define TURING_MACHINE_SIMULATOR_H_
 
+#include "tape.h"
 #include "turing-machine.h"
 
+#include <algorithm>
+#include <iostream>
+#include <stdexcept>
 #include <string>
+#include <string_view>
+#include <vector>
 
 class TuringMachineSimulator {
  public:
   TuringMachineSimulator() = default;
-  void test(const TuringMachine&, const std::string&);
+  void test(const TuringMachine&, const std::string&) const;
+  
+ private:
+  void printTapes(const std::vector<Tape>&) const;
 };
 
 #endif

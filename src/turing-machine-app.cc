@@ -26,7 +26,7 @@ void TuringMachineApp::runApp() {
 
 void TuringMachineApp::readInputString(std::string& input_string) {
   printInstructions();
-  if (!(std::cin >> input_string)) {
+  if (!(std::getline(std::cin, input_string))) {
     throw std::invalid_argument("Invalid input: stream read failure");
   }
   std::cout << "\n";

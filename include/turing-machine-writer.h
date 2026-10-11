@@ -21,6 +21,7 @@ class TuringMachineWriter {
  public:
   TuringMachineWriter() = default;
   void writeTuringMachine(const TuringMachine&) const;
+  
  private:
   void writeStates(const std::vector<std::string>&) const;
   void writeTransitions(const Transitions&) const;

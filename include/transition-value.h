@@ -20,6 +20,12 @@ struct TransitionValue {
   std::string next_state_;
   std::vector<Symbol> tapes_symbol_;
   std::vector<Movement> movements_;
+  friend bool operator==(
+      const TransitionValue& lhs, const TransitionValue& rhs) {
+    return lhs.next_state_ == rhs.next_state_ && 
+           lhs.tapes_symbol_ == rhs.tapes_symbol_ &&
+           lhs.movements_ == rhs.movements_;
+  }
 };
 
 #endif

@@ -16,6 +16,7 @@
 
 class MovementParser {
  public:
+  MovementParser() = default;
   static Movement MovementFromChar(char);
   static char MovementToChar(const Movement&);
 };

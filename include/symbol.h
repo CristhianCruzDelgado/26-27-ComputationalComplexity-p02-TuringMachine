@@ -24,6 +24,7 @@ class Symbol {
   friend bool operator<(const Symbol&, const Symbol&);
   friend std::istream& operator>>(std::istream&, Symbol&);
   friend std::ostream& operator<<(std::ostream&, const Symbol&);
+  
  private:
   static constexpr char kEmptySymbol = '.';
   char symbol_;

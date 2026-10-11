@@ -12,7 +12,7 @@
 constexpr std::string_view kHelpError =
   "Help: This program simulates a Turing Machine (TM)\n"
   "Try: ./turing-machine -config <../data/[designed|example]TM-[1|2].txt>\n";
-constexpr std::string_view kParserError = "Use -help for help\n";
+constexpr std::string_view kParserError = "Use: ./turing-machine -help\n";
 
 TuringMachineException::TuringMachineException(std::string_view message)
     : std::runtime_error(std::string(message)) {}

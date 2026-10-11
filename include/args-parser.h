@@ -20,6 +20,7 @@ class ArgsParser {
   ArgsParser() = default;
   explicit ArgsParser(int argc, char* argv[]);
   const char* getConfigPath() const;
+  
  private:
   std::vector<char*> arguments_;
 };

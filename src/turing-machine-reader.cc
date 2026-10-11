@@ -31,10 +31,11 @@ TuringMachine TuringMachineReader::readTuringMachine(
   std::size_t number_of_tapes;
   readNumberOfTapes(number_of_tapes, file);
   Transitions transition_function;
-  readTransitionFunction(states, tape_alphabet, number_of_tapes, 
-    transition_function, file);
-  return TuringMachine(states, input_alphabet, tape_alphabet, initial_state,
-    blank_symbol, final_states, number_of_tapes, transition_function);
+  readTransitionFunction(
+    states, tape_alphabet, number_of_tapes, transition_function, file);
+  return TuringMachine(
+    states, input_alphabet, tape_alphabet, initial_state, blank_symbol, 
+    final_states, number_of_tapes, transition_function);
 }
 
 void TuringMachineReader::readLineComments(std::ifstream& is) const {
@@ -163,7 +164,8 @@ void TuringMachineReader::readTransitionFunction(
         throw std::invalid_argument("Invalid input: stream read failure");
       }
       if (!tape_alphabet.includes(tape_symbol)) {
-        throw std::runtime_error(tape_symbol.getSymbol() + " ∉ Γ");
+        throw std::runtime_error(
+          std::string(1, tape_symbol.getSymbol()) + " ∉ Γ");
       }
       tapes_symbol.push_back(tape_symbol);
     }
@@ -182,7 +184,8 @@ void TuringMachineReader::readTransitionFunction(
         throw std::invalid_argument("Invalid input: stream read failure");
       }
       if (!tape_alphabet.includes(next_tape_symbol)) {
-        throw std::runtime_error(next_tape_symbol.getSymbol() + " ∉ Γ");
+        throw std::runtime_error(
+          std::string(1, next_tape_symbol.getSymbol()) + " ∉ Γ");
       }
       next_tapes_symbol.push_back(next_tape_symbol);
     }
@@ -197,7 +200,8 @@ void TuringMachineReader::readTransitionFunction(
       movements.push_back(move);
     }
 
-    transition_function.insert({{state, tapes_symbol}, 
+    transition_function.insert({
+      {state, tapes_symbol}, 
       {next_state, next_tapes_symbol, movements}});
   }
 }

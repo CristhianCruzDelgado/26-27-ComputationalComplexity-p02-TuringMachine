@@ -41,7 +41,11 @@ const Transitions& TuringMachine::getTransitions() const {
   return transition_function_;
 }
 
-const TransitionValue& TuringMachine::getTransitionValueOf(
+TransitionValue TuringMachine::getTransitionValueOf(
     const TransitionKey& transition_key) const {
-  return transition_function_.at(transition_key);
+  auto it = transition_function_.find(transition_key);
+  if (it == transition_function_.end()) {
+    return {};
+  }
+  return it->second;
 }

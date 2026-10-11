@@ -30,6 +30,7 @@ class String {
   friend bool operator<(const String&, const String&);
   friend std::istream& operator>>(std::istream&, String&);
   friend std::ostream& operator<<(std::ostream&, const String&);
+  
  private:
   std::vector<Symbol> symbols_;
 };

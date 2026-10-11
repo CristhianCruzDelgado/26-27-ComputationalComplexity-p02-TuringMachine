@@ -51,7 +51,8 @@ class TuringMachine {
   const std::vector<std::string>& getFinalStates() const;
   std::size_t getNumberOfTapes() const;
   const Transitions& getTransitions() const;
-  const TransitionValue& getTransitionValueOf(const TransitionKey&) const;
+  TransitionValue getTransitionValueOf(const TransitionKey&) const;
+  
  private:
   std::vector<std::string> states_;
   Alphabet input_alphabet_; 

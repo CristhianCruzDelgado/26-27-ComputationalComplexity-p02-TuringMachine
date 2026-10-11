@@ -24,6 +24,7 @@ class TuringMachineApp {
   TuringMachineApp() = default;
   explicit TuringMachineApp(const char*);
   void runApp();
+  
  private:
   void readInputString(std::string&);
   void printInstructions();
